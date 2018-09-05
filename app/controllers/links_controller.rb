@@ -17,6 +17,11 @@ class LinksController < ApplicationController
     @link = Link.new
   end
 
+  #POST /links/parse
+  def parse
+
+  end
+
   # GET /links/1/edit
   def edit
   end

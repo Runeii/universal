@@ -1,7 +1,7 @@
 <template>
   <div>
     <input v-model="link" @paste="checkLink" @submit="checkLink" @keyup="checkLink"/>
-    <p>{{status}}</p>
+    <p v-if="loading && !status">{{status}}</p>
   </div>
 </template>
 
@@ -13,13 +13,24 @@ export default {
   data () {
     return {
       link: '',
-      status: ''
+      loading: false,
+      status: false
     }
   },
   methods: {
     checkLink () {
-      this.status = 'testing'
-      if (!isurl(this.link)) this.status = 'Invalid URL'
+      this.loading = true
+      this.establishCable()
+    },
+    establishCable () {
+      let actionCable = ActionCable.createConsumer("/cable");
+      actionCable.subscriptions.create('LinkShareChannel', {
+        connected: ()   => {
+        },
+        received: (data) => {
+          if (data) console.log(data)
+        }
+      })
     }
   }
 }
