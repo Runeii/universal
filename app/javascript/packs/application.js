@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import Routes from '../routes.js'
 import App from '../app.vue'
+ 
+Vue.use(VueAxios, axios)
 Vue.use(VueRouter)
 
 const router = new VueRouter({

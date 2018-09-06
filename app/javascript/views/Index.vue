@@ -20,7 +20,7 @@ export default {
   methods: {
     checkLink () {
       this.loading = true
-      this.establishCable()
+      this.axios.get(`/api/links/${this.link}`).then(r => console.log(r))
     },
     establishCable () {
       let actionCable = ActionCable.createConsumer("/cable");
