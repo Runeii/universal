@@ -20,18 +20,19 @@ export default {
   methods: {
     checkLink () {
       this.loading = true
-      this.axios.get(`/api/links/${this.link}`).then(r => console.log(r))
-    },
-    establishCable () {
-      let actionCable = ActionCable.createConsumer("/cable");
-      actionCable.subscriptions.create('LinkShareChannel', {
-        connected: ()   => {
-        },
-        received: (data) => {
-          if (data) console.log(data)
-        }
-      })
+      this.axios.get(`/api/link/${this.link}`).then(r => console.log(r))
+      .catch(e => console.log(e.response))
     }
+    // establishCable () {
+    //   let actionCable = ActionCable.createConsumer("/cable");
+    //   actionCable.subscriptions.create('LinkShareChannel', {
+    //     connected: ()   => {
+    //     },
+    //     received: (data) => {
+    //       if (data) console.log(data)
+    //     }
+    //   })
+    // }
   }
 }
 </script>

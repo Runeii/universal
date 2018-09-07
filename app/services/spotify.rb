@@ -4,8 +4,8 @@ class Spotify
     RSpotify.authenticate(ENV['SPOTIFY_CLIENT'], ENV['SPOTIFY_SECRET'])
   end
 
-  def parse_link url
-    url.remove!('https://').remove!('http://').remove!('open.spotify.com/')
+  def parse_url url
+    url.remove!('open.spotify.com/')
     components = url.split('/')
     return components unless components[0] === 'user'
     return [components[2], components[3], components[1]]

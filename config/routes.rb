@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :playlists
   resources :links
   resources :tracks
   resources :albums
@@ -6,6 +7,7 @@ Rails.application.routes.draw do
 
   scope 'api', defaults: { format: :json } do
     resources :links
+    match "link/:url" => "links#parse_url", :constraints => {:url => /.*/}, via: [:get]
     resources :tracks
     resources :albums
     resources :artists
