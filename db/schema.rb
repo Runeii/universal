@@ -12,9 +12,12 @@
 
 ActiveRecord::Schema.define(version: 2018_09_09_131314) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "albums", force: :cascade do |t|
     t.string "title"
-    t.integer "artist_id"
+    t.bigint "artist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["artist_id"], name: "index_albums_on_artist_id"
@@ -28,14 +31,14 @@ ActiveRecord::Schema.define(version: 2018_09_09_131314) do
 
   create_table "links", force: :cascade do |t|
     t.string "url"
+    t.string "url_with_protocol"
     t.string "type"
-    t.integer "track_id"
-    t.integer "playlist_id"
-    t.integer "album_id"
-    t.integer "artist_id"
+    t.bigint "track_id"
+    t.bigint "playlist_id"
+    t.bigint "album_id"
+    t.bigint "artist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "url_with_protocol"
     t.string "link_type"
     t.index ["album_id"], name: "index_links_on_album_id"
     t.index ["artist_id"], name: "index_links_on_artist_id"
@@ -49,21 +52,21 @@ ActiveRecord::Schema.define(version: 2018_09_09_131314) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "services", force: :cascade do |t|
-    t.string "name"
-    t.string "icon"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "tracks", force: :cascade do |t|
     t.string "title"
-    t.integer "artist_id"
-    t.integer "album_id"
+    t.bigint "artist_id"
+    t.bigint "album_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["album_id"], name: "index_tracks_on_album_id"
     t.index ["artist_id"], name: "index_tracks_on_artist_id"
   end
 
+  add_foreign_key "albums", "artists"
+  add_foreign_key "links", "albums"
+  add_foreign_key "links", "artists"
+  add_foreign_key "links", "playlists"
+  add_foreign_key "links", "tracks"
+  add_foreign_key "tracks", "albums"
+  add_foreign_key "tracks", "artists"
 end
