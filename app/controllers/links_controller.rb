@@ -1,11 +1,14 @@
 class LinksController < ApplicationController
   #POST /link/parse
   def parse_url
-    url = params[:url]
-    puts url
+    url = sanitise_url(params[:url])
+    existing = Link.find_by(url: url)
+    puts existing.inspect
+    return render :json => { :data => existing.target } unless existing.blank?
+
     @link = Link.new({url: url})
     if @link.save
-      return render :json => { :data => @link } 
+      return render :json => { :data => @link.target } 
     else
       return render :json => { :errors => @link.errors }, :status => 400
     end
